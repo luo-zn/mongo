@@ -1,0 +1,165 @@
+version: '3.7'
+
+networks:
+
+  redisnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
+
+services:
+  mongo-rs0-node1:
+    image: 10.129.61.65:90/library/mongo:4.0
+    container_name: mongo-rs0-node1
+    command: mongod --config /data/mongodb/mongod.conf
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.12
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/docker-volume/tct-compose/standalone/mongodb/rs0/node1:/data/mongodb
+
+  mongo-rs0-node2:
+    image: 10.129.61.65:90/library/mongo:4.0
+    container_name: mongo-rs0-node2
+    command: mongod --config /data/mongodb/mongod.conf
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.13
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/docker-volume/tct-compose/standalone/mongodb/rs0/node2:/data/mongodb
+    depends_on:
+      - mongo-rs0-node1
+
+  mongo-rs0-node3:
+    image: 10.129.61.65:90/library/mongo:4.0
+    container_name: mongo-rs0-node3
+    command: mongod --config /data/mongodb/mongod.conf
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.14
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/docker-volume/tct-compose/standalone/mongodb/rs0/node3:/data/mongodb
+    depends_on:
+      - mongo-rs0-node2
+
+  mongo-rs1-node1:
+    image: 10.129.61.65:90/library/mongo:4.0
+    container_name: mongo-rs1-node1
+    command: mongod --config /data/mongodb/mongod.conf
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.15
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/docker-volume/tct-compose/standalone/mongodb/rs1/node1:/data/mongodb
+
+  mongo-rs1-node2:
+    image: 10.129.61.65:90/library/mongo:4.0
+    container_name: mongo-rs1-node2
+    command: mongod --config /data/mongodb/mongod.conf
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.16
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/docker-volume/tct-compose/standalone/mongodb/rs1/node2:/data/mongodb
+    depends_on:
+      - mongo-rs1-node1
+
+  mongo-rs1-node3:
+    image: 10.129.61.65:90/library/mongo:4.0
+    container_name: mongo-rs1-node3
+    command: mongod --config /data/mongodb/mongod.conf
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.17
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/docker-volume/tct-compose/standalone/mongodb/rs1/node3:/data/mongodb
+    depends_on:
+      - mongo-rs1-node2
+
+  cfg1:
+    image: 10.129.61.65:90/library/mongo:4.0
+    container_name: mongo-cfg1-node1
+    command: mongod --config /data/mongodb/mongod.conf
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.18
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/docker-volume/tct-compose/standalone/mongodb/cfg-server/node1:/data/mongodb
+
+  cfg2:
+    image: 10.129.61.65:90/library/mongo:4.0
+    container_name: mongo-cfg2-node2
+    command: mongod --config /data/mongodb/mongod.conf
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.19
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/docker-volume/tct-compose/standalone/mongodb/cfg-server/node2:/data/mongodb
+    depends_on:
+      - cfg1
+
+  cfg3:
+    image: 10.129.61.65:90/library/mongo:4.0
+    container_name: mongo-cfg3-node3
+    command: mongod --config /data/mongodb/mongod.conf
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.20
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/docker-volume/tct-compose/standalone/mongodb/cfg-server/node3:/data/mongodb
+    depends_on:
+      - cfg2
+
+  mongos:
+    image: 10.129.61.65:90/library/mongo:4.0
+    container_name: mongos
+    command: mongos --config /data/mongodb/mongos.conf
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.21
+    ports:
+      - "27017:27017"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/docker-volume/tct-compose/standalone/mongodb/mongos:/data/mongodb
+    depends_on:
+      - cfg1
+      - cfg2
+      - cfg3
+
+  centos-base-env:
+    image: 10.129.61.65:90/library/centos-base-env
+    container_name: centos-base-env
+    command: bash /data/scripts/mongo-cluster-operations.sh
+    networks:
+      redisnet:
+        ipv4_address: 10.0.0.22
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/docker-volume/tct-compose/standalone/mongodb/scripts:/data/scripts
+    depends_on:
+      - mongo-rs0-node1
+      - mongo-rs0-node2
+      - mongo-rs0-node3
+      - mongo-rs1-node1
+      - mongo-rs1-node2
+      - mongo-rs1-node3
+      - cfg1
+      - cfg2
+      - cfg3
+      - mongos
+    links:
+      - mongo-rs0-node1
+      - mongo-rs1-node1
+      - cfg1

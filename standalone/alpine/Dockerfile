@@ -1,2 +1,3 @@
-FROM alpine
-RUN apk update && apk add apt-get && apt-get install mongodb
+FROM alpine:3.11
+LABEL maintainer="lzn"
+RUN apk add --no-cache mongodb-tools

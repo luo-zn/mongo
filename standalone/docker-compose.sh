@@ -13,6 +13,7 @@ compose-files(){
           if [[ -f services/$sr/$d/docker-compose.yml ]];then
             compose_files=" $compose_files -f services/$sr/$d/docker-compose.yml "
           fi
+        done
       fi
   done
   echo " $compose_files "

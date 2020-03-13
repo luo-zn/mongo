@@ -13,6 +13,8 @@ services:
       context: alpine/.
     image: alpine:mongo
     command: bash /data/scripts/mongo-cluster-operations.sh
+    networks: 
+      - mgnet
     volumes:
       - /etc/localtime:/etc/localtime
       - /data/mongo/standalone/scripts:/data/scripts

@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  rs1_node1:
+    image: mongo:4.2
+    command: mongod --config /data/configdb/mongod.conf
+    networks:
+      mgnet:
+        ipv4_address: 20.0.3.2
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/mongo/standalone/rs1/node1:/data
+      - /data/mongo/standalone/rs1/configs:/data/configdb
+      - /data/mongo/standalone/certs:/data/certs

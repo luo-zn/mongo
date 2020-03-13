@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  mongos:
+    image: mongo:4.2
+    command: mongod --config /data/configdb/mongos.conf
+    networks:
+      mgnet:
+        ipv4_address: 20.0.1.2
+    ports:
+      - "27017:27017"
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /data/mongo/standalone/mongos:/data
+      - /data/mongo/standalone/mongos/mongos.conf:/data/configdb/mongos.conf
+      - /data/mongo/standalone/certs:/data/certs
+    depends_on:
+      - cfg1
+      - cfg2
+      - cfg3

@@ -11,7 +11,7 @@ services:
   init_cluster:
     build: 
       context: alpine/.
-    image: jenner/alpine:mongodb-tools.4.2.1
+    image: jenner/alpine:mongodb.4.0.5-r0
     command: bash /data/scripts/mongo-cluster-operations.sh
     networks:
       - mgnet

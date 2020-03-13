@@ -1,4 +1,4 @@
-# mongo
+# MongoDB
 
 使用docker-compose单机快速搭建mongo切片集群的测试环境
 

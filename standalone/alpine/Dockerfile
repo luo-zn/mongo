@@ -1,3 +1,4 @@
-FROM alpine:3.11
+FROM alpine:3.9
 LABEL maintainer="lzn"
-RUN apk update && apk add  --no-cache mongodb-tools=4.2.1-r0
+RUN echo "https://mirrors.aliyun.com/alpine/v3.9/main/" > /etc/apk/repositories \
+    &&apk update && apk add  --no-cache mongodb

@@ -10,6 +10,6 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime
       - /data/mongo/standalone/cfg-server/node3:/data
-      - /data/mongo/standalone/cfg-server/configs:/data/configdb
+      - /data/mongo/standalone/cfg-server/configs:/data/configdb/mongod.conf
       - /data/mongo/standalone/certs:/data/certs
   

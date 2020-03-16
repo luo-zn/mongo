@@ -108,8 +108,8 @@ docker-init-mongo(){
 
     mongo --host rs1_node1:27018 /data/scripts/js/create-users.js
 
-    mongo --host cfg1_node1:27019 /data/scripts/js/cfg-initiate.js
-    waiting-mongo-master cfg1_node1:27019
+    mongo --host cfg1:27019 /data/scripts/js/cfg-initiate.js
+    waiting-mongo-master cfg1:27019
     ping-server mongos
     waiting-mongo-master mongos:27017
     mongo --host mongos:27017 /data/scripts/js/create-users.js

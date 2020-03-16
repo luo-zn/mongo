@@ -10,4 +10,4 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime
       - /data/mongo/standalone/services/rs0/node2:/data
-      - /data/mongo/standalone/services/rs0/configs:/data/configdb/mongod.conf
+      - /data/mongo/standalone/services/rs0/configs:/data/configdb/

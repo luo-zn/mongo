@@ -5,12 +5,12 @@ chmod-logs(){
   for sr in $(ls services)
   do
     if [[ -f  services/$sr/mongod.log || -f services/$sr/mongos.log ]];then      
-      chmod 666 services/$sr/*.log
+      chmod 777 services/$sr/*.log
     elif [[ -d services/$sr ]];then
       for d in $(ls services/$sr)
       do
         if [[ -f services/$sr/$d/mongod.log || -f services/$sr/$d/mongos.log ]];then
-          chmod 666 services/$sr/$d/*.log
+          chmod 777 services/$sr/$d/*.log
         fi
       done
     fi

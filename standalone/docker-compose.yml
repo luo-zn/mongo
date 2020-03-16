@@ -12,7 +12,7 @@ services:
     build: 
       context: alpine/.
     image: jenner/alpine:mongodb.4.0.5-r0
-    command: bash /data/scripts/mongo-cluster-operations.sh
+    command: sh /data/scripts/mongo-cluster-operations.sh
     networks:
       - mgnet
     dns:

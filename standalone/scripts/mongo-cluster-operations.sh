@@ -103,18 +103,18 @@ docker-init-mongo(){
     mongo --host rs0_node1:27018 /data/scripts/js/rs0-initiate.js
     waiting-mongo-master rs0_node1:27018
 
-    mongo --host rs1_node1:27018 /data/scripts/js/rs1-initiate.js
-    waiting-mongo-master rs1_node1:27018
+    # mongo --host rs1_node1:27018 /data/scripts/js/rs1-initiate.js
+    # waiting-mongo-master rs1_node1:27018
 
-    mongo --host rs1_node1:27018 /data/scripts/js/create-users.js
+    # mongo --host rs1_node1:27018 /data/scripts/js/create-users.js
 
-    mongo --host cfg1:27019 /data/scripts/js/cfg-initiate.js
-    waiting-mongo-master cfg1:27019
-    ping-server mongos
-    waiting-mongo-master mongos:27017
-    mongo --host mongos:27017 /data/scripts/js/create-users.js
-    mongo --host mongos:27017 /data/scripts/js/addShard.js
-    mongo --host mongos:27017 /data/scripts/js/mydb-sharding.js
+    # mongo --host cfg1:27019 /data/scripts/js/cfg-initiate.js
+    # waiting-mongo-master cfg1:27019
+    # ping-server mongos
+    # waiting-mongo-master mongos:27017
+    # mongo --host mongos:27017 /data/scripts/js/create-users.js
+    # mongo --host mongos:27017 /data/scripts/js/addShard.js
+    # mongo --host mongos:27017 /data/scripts/js/mydb-sharding.js
 }
 main(){
     # rs0-initiate mongo-rs0-node1:27018

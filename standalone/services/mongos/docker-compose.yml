@@ -3,7 +3,7 @@ version: '3.7'
 services:
   mongos:
     image: mongo:4.2
-    command: mongod --config /data/configdb/mongos.conf
+    command: mongos --config /data/configdb/mongos.conf
     networks:
       mgnet:
         ipv4_address: 20.0.1.2

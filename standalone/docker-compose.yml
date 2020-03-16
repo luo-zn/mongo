@@ -9,10 +9,11 @@ networks:
 
 services:
   init_cluster:
-    build: 
-      context: alpine/.
-    image: jenner/alpine:mongodb.4.0.5-r0
-    command: sh /data/scripts/mongo-cluster-operations.sh
+    # build: 
+    #   context: alpine/.
+    # image: jenner/alpine:mongodb.4.0.5-r0
+    image: mongo:4.2
+    command: bash /data/scripts/mongo-cluster-operations.sh
     networks:
       - mgnet
     dns:

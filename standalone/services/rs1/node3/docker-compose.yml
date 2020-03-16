@@ -9,5 +9,5 @@ services:
         ipv4_address: 20.0.3.4
     volumes:
       - /etc/localtime:/etc/localtime
-      - /data/mongo/standalone/rs1/node3:/data
+      - /data/mongo/standalone/services/rs1/node3:/data
       - /data/mongo/standalone/services/rs1/configs:/data/configdb/

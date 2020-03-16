@@ -88,25 +88,33 @@ waiting-master(){
     done
     printf "\n%s\n"  "$container is master."
 }
+waiting-mongo-master(){
+    local host=${1:-"rs0_node1:27018"}
+    printf "%s" "Waiting for ${host} become master ..."
+    while ! mongo ${host} --eval 'db.isMaster().ismaster'|grep true &>/dev/null
+    do
+        printf "%c" "."
+    done
+    printf "\n%s\n"  "$host is master."
+}
+
 docker-init-mongo(){
     ping-server rs0_node1
     mongo --host rs0_node1:27018 /data/scripts/js/rs0-initiate.js
-    # docker-exec-js-base rs0_node1 27018 rs0-initiate.js
-    # waiting-master rs0_node1
-    # docker-exec-js-base mongo-rs0-node1 27018 create-users.js
+    waiting-mongo-master rs0_node1:27018
 
-    # docker-exec-js-base mongo-rs1-node1 27018 rs1-initiate.js
-    # waiting-master mongo-rs1-node1
-    # docker-exec-js-base mongo-rs1-node1 27018 create-users.js
+    mongo --host rs1_node1:27018 /data/scripts/js/rs1-initiate.js
+    waiting-mongo-master rs1_node1:27018
 
-    # docker-exec-js-base mongo-cfg1-node1 27019 cfg-initiate.js
-    # waiting-master mongo-cfg1-node1 27019
-    # ping-server mongos
-    # waiting-master mongos 27017
-    # docker-exec-js-base mongos 27017 create-users.js
+    mongo --host rs1_node1:27018 /data/scripts/js/create-users.js
 
-    # docker-exec-js-base mongos 27017 addShard.js
-    # docker-exec-js-base mongos 27017 ocsp-sharding.js
+    mongo --host cfg1_node1:27019 /data/scripts/js/cfg-initiate.js
+    waiting-mongo-master cfg1_node1:27019
+    ping-server mongos
+    waiting-mongo-master mongos:27017
+    mongo --host mongos:27017 /data/scripts/js/create-users.js
+    mongo --host mongos:27017 /data/scripts/js/addShard.js
+    mongo --host mongos:27017 /data/scripts/js/mydb-sharding.js
 }
 main(){
     # rs0-initiate mongo-rs0-node1:27018

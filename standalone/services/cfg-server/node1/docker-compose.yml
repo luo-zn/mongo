@@ -11,4 +11,3 @@ services:
       - /etc/localtime:/etc/localtime
       - /data/mongo/standalone/services/cfg-server/node1:/data/
       - /data/mongo/standalone/services/cfg-server/configs:/data/configdb/
-      - /data/mongo/standalone/certs:/data/certs

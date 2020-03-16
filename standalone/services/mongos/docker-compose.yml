@@ -14,7 +14,6 @@ services:
       - /etc/localtime:/etc/localtime
       - /data/mongo/standalone/services/mongos:/data
       - /data/mongo/standalone/services/mongos/mongos.conf:/data/configdb/mongos.conf
-      - /data/mongo/standalone/certs:/data/certs
     depends_on:
       - cfg1
       - cfg2

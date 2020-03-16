@@ -11,6 +11,7 @@ chmod-logs(){
       do
         if [[ -f services/$sr/$d/mongod.log || -f services/$sr/$d/mongos.log ]];then
           chmod 777 services/$sr/$d/*.log
+          chmod 400 services/$sr/$d/certs/*
         fi
       done
     fi

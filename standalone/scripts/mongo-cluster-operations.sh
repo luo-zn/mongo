@@ -133,7 +133,7 @@ init-mongo(){
     waiting-mongo-primary cfg1:27019
 
     echo "create users in cfg"
-    local primary=$(mongo rs1_node1:27018 --eval 'db.isMaster().primary' --quiet)
+    local primary=$(mongo cfg1:27019 --eval 'db.isMaster().primary' --quiet)
     mongo --host $primary /data/scripts/js/create-users.js
     
     ping-server mongos

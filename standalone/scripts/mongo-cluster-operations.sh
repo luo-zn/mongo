@@ -117,10 +117,10 @@ init-mongo(){
     mongo --host cfg1:27019 /data/scripts/js/cfg-initiate.js
     waiting-mongo-primary cfg1:27019
 
-    echo "create users in cfg"
-    local primary=$(mongo cfg1:27019 --eval 'db.isMaster().primary' --quiet)
-    waiting-mongo-master $primary
-    mongo --host $primary /data/scripts/js/create-users.js
+    # echo "create users in cfg"
+    # local primary=$(mongo cfg1:27019 --eval 'db.isMaster().primary' --quiet)
+    # waiting-mongo-master $primary
+    # mongo --host $primary /data/scripts/js/create-users.js
     
     ping-server mongos
     waiting-mongo-master mongos:27017

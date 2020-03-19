@@ -1,4 +1,5 @@
 #!/bin/bash
+# Create By lzn
 
 
 rs0-initiate(){
@@ -58,16 +59,7 @@ find_base_dir() {
     echo "${dir_name}"
 }
 
-docker-exec-js-base(){
-    local grep_cond=$1
-    local port=$2
-    local js_filename=$3
-    local container_id=$(docker ps --filter name=${grep_cond} -q)
-    echo "====Exec ${js_filename} in ${grep_cond}[${container_id}].===="
-    docker cp $(find_base_dir)/js/${js_filename} ${container_id}:/home/
-    docker exec $container_id bash -c "mongo --port ${port} /home/${js_filename}"
-    echo "====End exec ${js_filename} in ${grep_cond}[${container_id}].===="
-}
+
 
 ping-server(){
     local host=$1
@@ -78,16 +70,7 @@ ping-server(){
     done
     printf "\n%s\n"  "$host is online"
 }
-waiting-master(){
-    local container=${1:-mongo-rs0-node1}
-    local port=${2:-27018}
-    printf "%s" "Waiting for ${container} become master ..."
-    while ! docker exec  ${container} bash -c "mongo --port ${port} --eval 'db.isMaster().ismaster'"|grep true &>/dev/null
-    do
-        printf "%c" "."
-    done
-    printf "\n%s\n"  "$container is master."
-}
+
 waiting-mongo-master(){
     local host=${1:-"rs0_node1:27018"}
     printf "%s" "Waiting for ${host} become master ..."
@@ -134,10 +117,10 @@ init-mongo(){
     mongo --host cfg1:27019 /data/scripts/js/cfg-initiate.js
     waiting-mongo-primary cfg1:27019
 
-    echo "create users in cfg"
-    local primary=$(mongo cfg1:27019 --eval 'db.isMaster().primary' --quiet)
-    waiting-mongo-master $primary
-    mongo --host $primary /data/scripts/js/create-users.js
+    # echo "create users in cfg"
+    # local primary=$(mongo cfg1:27019 --eval 'db.isMaster().primary' --quiet)
+    # waiting-mongo-master $primary
+    # mongo --host $primary /data/scripts/js/create-users.js
     
     ping-server mongos
     waiting-mongo-master mongos:27017

@@ -12,7 +12,7 @@ services:
       # - "27017:27017"
     volumes:
       - /etc/localtime:/etc/localtime
-      - /data/mongo/standalone/services/mongos:/data
+      - /data/mongo/standalone/services/mongos/:/data/
       - /data/mongo/standalone/services/mongos/mongos.conf:/data/configdb/mongos.conf
     depends_on:
       - cfg1

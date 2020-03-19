@@ -9,6 +9,6 @@ services:
         ipv4_address: 20.0.0.3
     volumes:
       - /etc/localtime:/etc/localtime
-      - /data/mongo/standalone/services/cfg-server/node2/:/data/
+      - /data/mongo/standalone/services/cfg-server/node2/db:/data/db
       - /data/mongo/standalone/services/cfg-server/configs:/data/configdb
   

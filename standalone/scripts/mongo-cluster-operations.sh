@@ -140,21 +140,12 @@ init-mongo(){
     mongo --host $primary /data/scripts/js/create-users.js
     
     ping-server mongos
-    # waiting-mongo-master mongos:27017
+    waiting-mongo-master mongos:27017
     mongo --host mongos:27017 /data/scripts/js/create-users.js
     mongo --host mongos:27017 /data/scripts/js/addShard.js
     mongo --host mongos:27017 /data/scripts/js/mydb-sharding.js
 }
 main(){
-    # rs0-initiate mongo-rs0-node1:27018
-    # rs1-initiate mongo-rs1-node1:27018
-    # cfg-initiate cfg1:27019
-    # sleep 15
-    # rs_create_users
-    # mongos_create_users
-    # add_shards 10.0.0.21 27017
-    # ocsp_sharding 10.0.0.21 27017
-
     init-mongo
     sleep infinity
 }

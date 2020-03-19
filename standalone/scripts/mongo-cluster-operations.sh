@@ -100,12 +100,14 @@ waiting-mongo-master(){
 waiting-mongo-primary(){
     local host=${1:-"rs0_node1:27018"}
     printf "%s" "Waiting for ${host} primary elected ..."
-    while ! mongo ${host} --eval 'db.isMaster().primary' --quiet &>/dev/null
+    local primary=$(mongo ${host} --eval 'db.isMaster().primary' --quiet)
+    while [ -z "$primary" ]
     do
         printf "%c" "."
+        primary=$(mongo ${host} --eval 'db.isMaster().primary' --quiet)
     done
     
-    printf "\n%s\n"  "$(mongo ${host} --eval 'db.isMaster().primary' --quiet) is primary."
+    printf "\n%s\n"  "${primary}  is primary."
 }
 docker-init-mongo(){
     ping-server rs0_node1

@@ -151,7 +151,7 @@ main(){
     # add_shards 10.0.0.21 27017
     # ocsp_sharding 10.0.0.21 27017
 
-    docker-init-mongo
+    # docker-init-mongo
     sleep infinity
 }
 

@@ -111,16 +111,30 @@ waiting-mongo-primary(){
 }
 docker-init-mongo(){
     ping-server rs0_node1
+    echo "initiate rs0"
     mongo --host rs0_node1:27018 /data/scripts/js/rs0-initiate.js
     waiting-mongo-primary rs0_node1:27018
 
+    echo "create users in rs0"
+    local primary=$(mongo rs0_node1:27018 --eval 'db.isMaster().primary' --quiet)
+    mongo --host $primary /data/scripts/js/create-users.js
+
+    echo "initiate rs1"    
     mongo --host rs1_node1:27018 /data/scripts/js/rs1-initiate.js
     waiting-mongo-primary rs1_node1:27018
 
-    mongo --host rs1_node1:27018 /data/scripts/js/create-users.js
+    echo "create users in rs1"
+    local primary=$(mongo rs1_node1:27018 --eval 'db.isMaster().primary' --quiet)
+    mongo --host $primary /data/scripts/js/create-users.js
 
+    echo "initiate cfg" 
     mongo --host cfg1:27019 /data/scripts/js/cfg-initiate.js
     waiting-mongo-primary cfg1:27019
+
+    echo "create users in cfg"
+    local primary=$(mongo rs1_node1:27018 --eval 'db.isMaster().primary' --quiet)
+    mongo --host $primary /data/scripts/js/create-users.js
+    
     ping-server mongos
     # waiting-mongo-master mongos:27017
     mongo --host mongos:27017 /data/scripts/js/create-users.js

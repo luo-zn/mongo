@@ -11,7 +11,7 @@ services:
   init_cluster:
     build: 
       context: init-mongo/.
-    image: jenner/mongo:4.2-with-ping
+    image: jenner/mongo:4.0-with-ping
     command: bash /data/scripts/mongo-cluster-operations.sh
     networks:
       - mgnet

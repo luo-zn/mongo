@@ -37,6 +37,19 @@ compose-files(){
   echo " $compose_files "
 }
 
+enable-authorization(){
+  for sr in $(ls services)
+  do 
+    if [[ -f services/$sr/mongos.conf ]];then
+      sed -i "s|^#\s*\(security.*\)|\1|g" services/mongos/mongos.conf
+      sed -i "s|^#\(\s*keyFile.*\)|\1|g" services/mongos/mongos.conf
+    elif [[ -f services/$sr/configs/mongod.conf ]];then
+      sed -i "s|^#\s*\(security.*\)|\1|g" services/$sr/configs/mongod.conf
+      sed -i "s|^#\(\s*authorization.*\)|\1|g" services/$sr/configs/mongod.conf
+      sed -i "s|^#\(\s*keyFile.*\)|\1|g" services/$sr/configs/mongod.conf
+    fi
+  done
+}
 init-cluster(){
   local compose_files=$(compose-files ${1:-""})
   chmod-logs

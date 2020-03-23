@@ -57,10 +57,12 @@ init-cluster(){
   local state=$(docker inspect  standalone_init_cluster_1 --format='{{.State.Health.Status}}')
   while [ "$state" != "healthy" ]
   do
-      echo "Waiting to setup shard cluster."
+      echo "Waiting to setup shard cluster. sleeping 6os..."
       sleep 60
       state=$(docker inspect  standalone_init_cluster_1 --format='{{.State.Health.Status}}')
   done
+  echo "enable-authorization."
+  enable-authorization
   echo "Restart services."
   docker-compose -f docker-compose.yml $compose_files restart
 }

@@ -8,6 +8,7 @@ https://www.processon.com/view/5cc56d70e4b059e20a0c038b
 
 ## bash docker-compose.sh [args] 命令的使用
 docker-compose.sh 脚本里封装了几个方法
+如果非root用户请加sudo
 
 命令 |   说明
 ------------ | -------------

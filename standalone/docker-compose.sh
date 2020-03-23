@@ -37,9 +37,22 @@ compose-files(){
   echo " $compose_files "
 }
 
-up(){
+init-cluster(){
   local compose_files=$(compose-files ${1:-""})
   chmod-logs
+  docker-compose -f docker-compose.yml $compose_files  up -d
+  local state=$(docker inspect  standalone_init_cluster_1 --format='{{.State.Health.Status}}')
+  while [ "$state" != "healthy" ]
+  do
+      echo "Waiting to setup shard cluster."
+      state=$(docker inspect  standalone_init_cluster_1 --format='{{.State.Health.Status}}')
+  done
+  echo "Restart services."
+  docker-compose -f docker-compose.yml $compose_files restart
+}
+
+up(){
+  local compose_files=$(compose-files ${1:-""})
   docker-compose -f docker-compose.yml $compose_files  up -d
 }
 

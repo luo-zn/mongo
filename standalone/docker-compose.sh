@@ -45,6 +45,7 @@ init-cluster(){
   while [ "$state" != "healthy" ]
   do
       echo "Waiting to setup shard cluster."
+      sleep 60
       state=$(docker inspect  standalone_init_cluster_1 --format='{{.State.Health.Status}}')
   done
   echo "Restart services."

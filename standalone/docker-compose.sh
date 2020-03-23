@@ -42,11 +42,11 @@ enable-authorization(){
   do 
     if [[ -f services/$sr/mongos.conf ]];then
       sed -i "s|^#\s*\(security.*\)|\1|g" services/mongos/mongos.conf
-      sed -i "s|^#\(\s*keyFile.*\)|\1|g" services/mongos/mongos.conf
+      sed -i "s|#\(\s*keyFile.*\)|\1|g" services/mongos/mongos.conf
     elif [[ -f services/$sr/configs/mongod.conf ]];then
       sed -i "s|^#\s*\(security.*\)|\1|g" services/$sr/configs/mongod.conf
-      sed -i "s|^#\(\s*authorization.*\)|\1|g" services/$sr/configs/mongod.conf
-      sed -i "s|^#\(\s*keyFile.*\)|\1|g" services/$sr/configs/mongod.conf
+      sed -i "s|#\(\s*authorization.*\)|\1|g" services/$sr/configs/mongod.conf
+      sed -i "s|#\(\s*keyFile.*\)|\1|g" services/$sr/configs/mongod.conf
     fi
   done
 }

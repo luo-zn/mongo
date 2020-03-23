@@ -3,7 +3,7 @@
 使用docker-compose单机快速搭建mongo切片集群的测试环境
 
 ## MongoDB切片集群高可用架构图
-![切片架构图](https://oscimg.oschina.net/oscnet/c14ce4e993a47df6d20c26de9ef3e3171ee.jpg '切片架构图')
+![切片架构图](https://www.processon.com/view/5cc56d70e4b059e20a0c038b)
 
 ## bash docker-compose.sh [args] 命令的使用
 docker-compose.sh 脚本里封装了几个方法

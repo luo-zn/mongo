@@ -2,7 +2,7 @@
 *~
 [._]*.s[a-w][a-z]
 
-
+.vscode/
 # the files generated from tox command.
 .stestr/
 AUTHORS
